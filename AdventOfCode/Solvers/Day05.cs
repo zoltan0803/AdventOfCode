@@ -16,8 +16,7 @@ namespace AdventOfCode.Solvers
         public static object PartOne(string input)
         {
             var t = GetTowers(input);
-            var m = GetMoves(input);
-            m.ForEach(m => UseCrateMover9000(t, m));
+            GetMoves(input).ForEach(m => UseCrateMover9000(t, m));
             return new string(t.Select(x => x.Last()).ToArray());
         }
 

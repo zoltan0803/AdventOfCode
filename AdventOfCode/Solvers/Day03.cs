@@ -6,25 +6,24 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using AdventOfCode.Models;
+using AdventOfCode.Utils;
 
 namespace AdventOfCode.Solvers
 {
     public class Day03 : IDay
     {
-        public static List<char> priorityItems = new List<char>();
         public static object PartOne(string input)
         {
             return GetCompartments(input).SelectMany(x => x.ElementAt(0).Intersect(x.ElementAt(1)))
                                          .ToList()
-                                         .Sum(x => GetPriority(x));
+                                         .Sum(GetPriority);
         }
 
         public static object PartTwo(string input) => GetBadges(input).Sum(x => GetPriority(x[0]));
 
         public static List<List<char[]>> GetCompartments(string input)
         {
-            return input.Split('\n')
-                        .ToList()
+            return input.GetLines()
                         .Select(x => (new List<char[]> { 
                             x.Substring(0, x.Length / 2).ToCharArray(),
                             x.Substring(x.Length / 2).ToCharArray() 
@@ -33,7 +32,7 @@ namespace AdventOfCode.Solvers
 
         public static List<List<char>> GetBadges(string input)
         {
-            var s = input.Split('\n').ToList();
+            var s = input.GetLines();
             return Enumerable.Range(1, (s.Count) / 3).ToList()
                              .Select(x => (x) * 3 - 3).ToList()
                              .Select(x => s.ElementAt(x)
@@ -41,7 +40,7 @@ namespace AdventOfCode.Solvers
                                            .Intersect(s.ElementAt(x + 2))).ToList()).ToList();
         }
 
-        public static int GetPriority(char c) => Char.IsLower(c) ? c - 96 : c - 64 + 26;
+        public static int GetPriority(char c) => char.IsLower(c) ? c - 96 : c - 64 + 26;
     }
 }
 
