@@ -4,7 +4,7 @@ using AdventOfCode.Utils;
 
 RunSolutionOfTheDay(false);
 
-
+static void RunSolutionOfTheDay(bool test, int day = 0)
 void RunSolutionOfTheDay(bool test, int day = 0)
 {
     var dayOfMonth = ProgramUtils.GetDayNumber(day);

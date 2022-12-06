@@ -5,31 +5,21 @@ namespace AdventOfCode.Solvers
 {
     internal class Day02 : IDay
     {
-        public static object PartOne(string input) => GetResults(input).Sum();
+        public static object PartOne(string input) => GetGuides(input).Select(c => RPS(c[1], c[0]) + c[1] - 87).Sum();
 
-        public static object PartTwo(string input) => GetResultsWithoutStrategy(input).Sum();
+        public static object PartTwo(string input) 
+            => GetGuides(input).Select(c => 
+            {
+                var s = GetStrategy(c[1], c[0]) + 23;
+                return RPS(s, c[0]) + s - 87;
+            }).Sum();
 
-        static List<int> GetResults(string input)
-        {
-            return input.GetLines()
-                        .Select(elf => elf.Split(" ")
-                            .Select(cal => char.Parse(cal)).ToArray())
-                        .Select(c => RPS(c[1], c[0]) + c[1] - 87)
-                        .ToList();
-        }
 
-        private static List<int> GetResultsWithoutStrategy(string input)
-        {
-            return input.GetLines()
-                        .Select(elf => elf.Split(" ")
-                            .Select(cal => char.Parse(cal)).ToArray())
-                        .Select(c =>
-                        {
-                            var s = GetStrategy(c[1], c[0]) + 23;
-                            return RPS(s, c[0]) + s - 87;
-                        }).ToList();
+        private static IEnumerable<char[]> GetGuides(string input) 
+            => input.GetLines().Select(e => e.Split(" ")
+                               .Select(c => char.Parse(c))
+                               .ToArray());
 
-        }
         private static int RPS(int i, int j)
         {
             i -= 87; j -= 64;
